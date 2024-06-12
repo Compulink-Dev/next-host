@@ -1,0 +1,61 @@
+/* components/Navbar.module.css */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    color: #009900;
+    padding: 25px 20px;
+}
+
+.navLinks {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navLinks li {
+    display: inline;
+    margin-right: 10px;
+}
+
+.navLinks a {
+    color: #009900;
+    text-decoration: none;
+}
+
+.sidebar {
+    display: none;
+}
+
+.sidebarToggle {
+    background: none;
+    border: none;
+    color: #009900;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.show {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        display: block;
+    }
+
+    .navLinks {
+        display: none;
+    }
+
+    .navLinks.show {
+        display: flex;
+        gap: 16px;
+        flex-direction: column;
+    }
+}
