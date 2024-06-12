@@ -11,6 +11,6 @@ const vacancyScheme = new Schema(
     }
 )
 
-const Vacancy = mongoose.models.Vacancy || mongoose.model("Vacancy", vacancyScheme)
+const Vacancy = mongoose?.models?.Vacancy || mongoose.model("Vacancy", vacancyScheme)
 
 export default Vacancy

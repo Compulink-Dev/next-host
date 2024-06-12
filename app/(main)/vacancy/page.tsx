@@ -2,6 +2,7 @@ import MainLayout from '@/components/layout'
 import React from 'react'
 import Category from './_components/category'
 import JobTable from './_components/jobTable'
+import VacancyTable from './_components/vacancyTable'
 
 
 
@@ -17,7 +18,7 @@ function VacancyPage() {
                     <p className="text-sm">Listing released just when you visited our website.</p>
                 </div>
                 <div className="my-12">
-                    <JobTable />
+                    <VacancyTable />
                 </div>
             </div>
         </MainLayout>
