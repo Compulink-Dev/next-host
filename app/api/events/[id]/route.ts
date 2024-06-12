@@ -1,88 +1,75 @@
-import db from "@/lib/db";
-import { NextResponse } from "next/server";
+import { connectToDB } from "@/lib/connectToDB";
+import About from "@/models/(about)/about";
+
+
+
+import { NextRequest, NextResponse } from "next/server";
 
 //@ts-ignore
-export async function GET(request, { params: { id } }) {
+export async function GET(request, { params }) {
+    await connectToDB()
     try {
-        const event = await db.event.findUnique({
-            where: { id },
-        });
-        if (!event) {
+        const about = await About.findById(params.id)
+
+        if (!about) {
             return NextResponse.json(
                 {
-                    message: "Event NOT FOUND",
+                    message: "about not found"
                 },
-                {
-                    status: 404,
-                }
-            );
+                { status: 400 }
+            )
         }
-        return NextResponse.json(event);
+
+        return NextResponse.json(about)
+
     } catch (error) {
-        console.log("Failed to fetch Event", error);
-        return NextResponse.json(
-            {
-                message: "Failed to fetch event",
-            },
-            {
-                status: 500,
-            }
-        );
+        return NextResponse.json({ message: "about error" }, { status: 400 })
     }
 }
 
 
 //@ts-ignore
-export async function PATCH(request, { params: { id } }) {
+export async function PUT(request, { params }) {
+    const body = await request.json()
+    await connectToDB()
     try {
-        const { title, position, link, image } = await request.json()
-        const data = { title, position, link, image }
+        const aboutUpdated = await About.findByIdAndUpdate(params.id, body)
 
-        const updatedEvent = await db.event.update({
-            where: { id },
-            data
-        });
-        if (!updatedEvent) {
+        if (!aboutUpdated) {
             return NextResponse.json(
                 {
-                    message: "Event NOT FOUND",
+                    message: "about not found"
                 },
-                {
-                    status: 404,
-                }
-            );
+                { status: 404 }
+            )
         }
-        return NextResponse.json(updatedEvent);
+
+        return NextResponse.json(aboutUpdated)
+
     } catch (error) {
-        console.log("Failed to update event", error);
-        return NextResponse.json(
-            {
-                message: "Failed to update event",
-            },
-            {
-                status: 500,
-            }
-        );
+        return NextResponse.json({ message: "about error" }, { status: 400 })
     }
 }
+
 
 //@ts-ignore
-export async function DELETE(request: Request, { params: { id } }) {
+export async function DELETE(request, { params }) {
+    await connectToDB()
     try {
+        const about = await About.findByIdAndDelete(params.id)
 
-        await db.event.delete({
-            where: { id }
-        })
-        return NextResponse.json({
-            message: "Event deleted successfully"
-        })
+        if (!about) {
+            return NextResponse.json(
+                {
+                    message: "about not found"
+                },
+                { status: 400 }
+            )
+        }
+
+        return NextResponse.json(about)
+
     } catch (error) {
-        console.log('Error while deleting', error);
-        return NextResponse.json({
-            message: "Failed to delete event",
-        }, {
-            status: 500
-        })
+        return NextResponse.json({ message: "about error" }, { status: 400 })
     }
 }
-

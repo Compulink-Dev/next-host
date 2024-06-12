@@ -1,88 +1,75 @@
-import db from "@/lib/db";
-import { NextResponse } from "next/server";
+import { connectToDB } from "@/lib/connectToDB";
+import About from "@/models/(about)/about";
+
+
+
+import { NextRequest, NextResponse } from "next/server";
 
 //@ts-ignore
-export async function GET(request, { params: { id } }) {
+export async function GET(request, { params }) {
+    await connectToDB()
     try {
-        const report = await db.report.findUnique({
-            where: { id },
-        });
-        if (!report) {
+        const about = await About.findById(params.id)
+
+        if (!about) {
             return NextResponse.json(
                 {
-                    message: "Report NOT FOUND",
+                    message: "about not found"
                 },
-                {
-                    status: 404,
-                }
-            );
+                { status: 400 }
+            )
         }
-        return NextResponse.json(report);
+
+        return NextResponse.json(about)
+
     } catch (error) {
-        console.log("Failed to fetch Contact", error);
-        return NextResponse.json(
-            {
-                message: "Failed to fetch contact",
-            },
-            {
-                status: 500,
-            }
-        );
+        return NextResponse.json({ message: "about error" }, { status: 400 })
     }
 }
 
 
 //@ts-ignore
-export async function PATCH(request, { params: { id } }) {
+export async function PUT(request, { params }) {
+    const body = await request.json()
+    await connectToDB()
     try {
-        const { title, position, link, image } = await request.json()
-        const data = { title, position, link, image }
+        const aboutUpdated = await About.findByIdAndUpdate(params.id, body)
 
-        const updatedreport = await db.report.update({
-            where: { id },
-            data
-        });
-        if (!updatedreport) {
+        if (!aboutUpdated) {
             return NextResponse.json(
                 {
-                    message: "Contact NOT FOUND",
+                    message: "about not found"
                 },
-                {
-                    status: 404,
-                }
-            );
+                { status: 404 }
+            )
         }
-        return NextResponse.json(updatedreport);
+
+        return NextResponse.json(aboutUpdated)
+
     } catch (error) {
-        console.log("Failed to update report", error);
-        return NextResponse.json(
-            {
-                message: "Failed to update report",
-            },
-            {
-                status: 500,
-            }
-        );
+        return NextResponse.json({ message: "about error" }, { status: 400 })
     }
 }
+
 
 //@ts-ignore
-export async function DELETE(request: Request, { params: { id } }) {
+export async function DELETE(request, { params }) {
+    await connectToDB()
     try {
+        const about = await About.findByIdAndDelete(params.id)
 
-        await db.report.delete({
-            where: { id }
-        })
-        return NextResponse.json({
-            message: "report deleted successfully"
-        })
+        if (!about) {
+            return NextResponse.json(
+                {
+                    message: "about not found"
+                },
+                { status: 400 }
+            )
+        }
+
+        return NextResponse.json(about)
+
     } catch (error) {
-        console.log('Error while deleting', error);
-        return NextResponse.json({
-            message: "Failed to delete member",
-        }, {
-            status: 500
-        })
+        return NextResponse.json({ message: "about error" }, { status: 400 })
     }
 }
-

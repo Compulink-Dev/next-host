@@ -1,5 +1,4 @@
 import { connectToDB } from "@/lib/connectToDB";
-import db from "@/lib/db";
 import Team from "@/models/teams/team";
 import Vacancy from "@/models/vacancy";
 import { NextRequest, NextResponse } from "next/server";
