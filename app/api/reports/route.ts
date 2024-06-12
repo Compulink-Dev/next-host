@@ -1,43 +1,44 @@
-import db from "@/lib/db";
-import { NextResponse } from "next/server";
+export const dynamic = "force-dynamic"
+
+import { connectToDB } from "@/lib/connectToDB"
+import About from "@/models/(about)/about"
+
+
+
+import { NextRequest, NextResponse } from "next/server"
+
+export async function POST(req: NextRequest) {
+    const { title, title2, title3, title4, title5, imageUrl, imageUrl2, imageUrl3, imageUrl4 } = await req.json()
+    await connectToDB()
+    await About.create({ title, title2, title3, title4, title5, imageUrl, imageUrl2, imageUrl3, imageUrl4 })
+    return NextResponse.json({ message: "about Created" }, { status: 201 })
+}
 
 
 export async function GET() {
-    try {
-        const reports = await db.report.findMany()
-
-        return NextResponse.json(reports, {
-            status: 201
-        })
-    } catch (error) {
-        console.log('Error while fetching', error);
-        return NextResponse.json({
-            message: "Failed to fetch member",
-        }, {
-            status: 500
-        })
-    }
+    await connectToDB()
+    const about = await About.find()
+    return NextResponse.json({ about })
 }
 
-export async function POST(request: Request) {
+//@ts-ignore
+export async function DELETE(request, { params }) {
+    await connectToDB()
     try {
-        const { title, position, link, image } = await request.json()
-        const data = { title, position, link, image }
+        const about = await About.findByIdAndDelete(params.id)
 
-        const reportData = await db.report.create({ data })
+        if (!about) {
+            return NextResponse.json(
+                {
+                    message: "about not found"
+                },
+                { status: 400 }
+            )
+        }
 
-        console.log(reportData);
-
-        return NextResponse.json(reportData, {
-            status: 201
-        })
+        return NextResponse.json(about)
 
     } catch (error) {
-        console.log('Error while creating', error);
-        return NextResponse.json({
-            message: "Failed to create report",
-        }, {
-            status: 500
-        })
+        return NextResponse.json({ message: "about error" }, { status: 400 })
     }
 }
