@@ -62,7 +62,9 @@ async function VacancyTable() {
         <div className='shadow p-4 border'>
             {
                 vacancies.map((vacancy) => (
-                    <div className="">{vacancy.name}</div>
+                    <div
+                        key={vacancy.name}
+                        className="">{vacancy.name}</div>
                 ))
             }
         </div>
