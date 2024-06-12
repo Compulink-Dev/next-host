@@ -31,11 +31,11 @@ const NewAboutSecond = () => {
         setNewVacant({ title: data.title, title2: data.title2, title3: data.title3, title4: data.title4, imageUrl: data.imageUrl });
     };
 
-    // useEffect(() => {
-    //     if (params.id) {
-    //         getVacant();
-    //     }
-    // }, []);
+    useEffect(() => {
+        if (params.id) {
+            getVacant();
+        }
+    }, []);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();

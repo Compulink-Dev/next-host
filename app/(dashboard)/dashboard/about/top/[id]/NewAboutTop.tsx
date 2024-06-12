@@ -23,11 +23,12 @@ const NewAboutTop = () => {
         setNewVacant({ title: data.title, title2: data.title2 });
     };
 
-    // useEffect(() => {
-    //     if (params.id) {
-    //         getVacant();
-    //     }
-    // }, []);
+    useEffect(() => {
+        //@ts-ignore
+        if (params.id) {
+            getVacant();
+        }
+    }, []);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();

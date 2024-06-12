@@ -23,11 +23,11 @@ const NewAboutGallery = () => {
         setNewVacant({ title: data.title, imageUrl: data.imageUrl });
     };
 
-    // useEffect(() => {
-    //     if (params.id) {
-    //         getVacant();
-    //     }
-    // }, []);
+    useEffect(() => {
+        if (params.id) {
+            getVacant();
+        }
+    }, []);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
