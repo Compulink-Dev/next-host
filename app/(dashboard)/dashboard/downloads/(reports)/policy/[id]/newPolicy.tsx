@@ -25,11 +25,11 @@ const NewPolicy = () => {
         setNewDownload({ title: data.title, document: data.document, imageUrl: data.imageUrl, date: data.date });
     };
 
-    // useEffect(() => {
-    //     if (params.id) {
-    //         getDownload();
-    //     }
-    // }, []);
+    useEffect(() => {
+        if (params.id) {
+            getDownload();
+        }
+    }, []);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();

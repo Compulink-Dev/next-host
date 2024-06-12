@@ -26,11 +26,11 @@ const NewTeam = () => {
         setNewVacant({ title: data.title, subtitle: data.subtitle, imageUrl: data.imageUrl, position: data.position, link: data.link });
     };
 
-    // useEffect(() => {
-    //     if (params.id) {
-    //         getVacant();
-    //     }
-    // }, []);
+    useEffect(() => {
+        if (params.id) {
+            getVacant();
+        }
+    }, []);
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
